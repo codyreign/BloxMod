@@ -84,6 +84,12 @@ Returns `{x,y,z}` for the chip model position.
 #### `chip.getChipCFrame()`
 Returns the chip model `CFrame`.
 
+#### `chip.getOwnerUserId()`
+Returns the placing player user id.
+
+#### `chip.getOwnerName()`
+Returns the placing player name.
+
 #### `chip.setChipVisible(visible)`
 Shows or hides the chip part. `visible` is boolean.
 
