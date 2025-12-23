@@ -232,3 +232,103 @@ chip.on("tick", function(dt)
     end
 end)
 ```
+
+## Blue Pet Follower (side + ground)
+```
+local FOLLOW_SPEED = 10
+local ROAM_SPEED = 3
+local FOLLOW_RADIUS = 30
+local ROAM_RADIUS = 6
+local SIDE_OFFSET = 5
+
+state.t = state.t or 0
+state.follower = state.follower or nil
+state.home = state.home or nil
+
+local function dist(ax, ay, az, bx, by, bz)
+    local dx = bx - ax
+    local dy = by - ay
+    local dz = bz - az
+    return math.sqrt(dx * dx + dy * dy + dz * dz)
+end
+
+local function moveTowards(part, tx, ty, tz, speed, dt)
+    local cf = chip.getPosition(part)
+    local pos = cf.Position
+    local px, py, pz = pos.X, pos.Y, pos.Z
+
+    local dx = tx - px
+    local dy = ty - py
+    local dz = tz - pz
+    local d = math.sqrt(dx * dx + dy * dy + dz * dz)
+    if d <= 0.01 then return end
+
+    local step = speed * dt
+    if step >= d then
+        part:setPosition(tx, ty, tz)
+        return
+    end
+
+    local nx = dx / d
+    local ny = dy / d
+    local nz = dz / d
+    part:setPosition(px + nx * step, py + ny * step, pz + nz * step)
+end
+
+local function getNearestPlayer()
+    local chipPos = chip.getChipPosition()
+    if not chipPos then return nil end
+    local players = chip.getPlayersInBox(chipPos, { x = 200, y = 200, z = 200 })
+    return players[1]
+end
+
+chip.on("init", function()
+    local chipPos = chip.getChipPosition()
+    state.home = { x = chipPos.x, y = chipPos.y + 1, z = chipPos.z }
+
+    state.follower = chip.spawn({
+        size = { x = 1, y = 1, z = 1 },
+        position = state.home,
+        anchored = true,
+        canCollide = false,
+        color = { r = 0.2, g = 0.6, b = 1 },
+    })
+end)
+
+chip.on("tick", function(dt)
+    if not state.follower then return end
+    state.t = state.t + dt
+
+    local player = getNearestPlayer()
+    if player then
+        local p = player:getPosition()
+        if p then
+            local chipPos = chip.getChipPosition()
+            local d = dist(p.x, p.y, p.z, chipPos.x, chipPos.y, chipPos.z)
+
+            if d > FOLLOW_RADIUS then
+                local dx = p.x - chipPos.x
+                local dz = p.z - chipPos.z
+                local len = math.sqrt(dx * dx + dz * dz)
+                if len < 0.01 then len = 1 end
+
+                local sx = -dz / len
+                local sz = dx / len
+
+                local tx = p.x + sx * SIDE_OFFSET
+                local tz = p.z + sz * SIDE_OFFSET
+                local ty = p.y + 1
+
+                moveTowards(state.follower, tx, ty, tz, FOLLOW_SPEED, dt)
+                return
+            end
+        end
+    end
+
+    local hx, hy, hz = state.home.x, state.home.y, state.home.z
+    local rx = hx + math.cos(state.t) * ROAM_RADIUS
+    local rz = hz + math.sin(state.t) * ROAM_RADIUS
+    local ry = hy
+    moveTowards(state.follower, rx, ry, rz, ROAM_SPEED, dt)
+end)
+```
