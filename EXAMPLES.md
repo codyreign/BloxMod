@@ -332,3 +332,25 @@ chip.on("tick", function(dt)
     moveTowards(state.follower, rx, ry, rz, ROAM_SPEED, dt)
 end)
 ```
+
+## Importing Helpers (multi-file project)
+`libs/utils.lua`:
+```
+local M = {}
+
+M.lerp = function(a, b, t)
+    return a + (b - a) * t
+end
+
+return M
+```
+
+`main.lua`:
+```
+local utils = import("libs/utils.lua")
+
+chip.on("init", function()
+    local x = utils.lerp(0, 10, 0.5)
+    chip.log(x)
+end)
+```
