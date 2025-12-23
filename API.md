@@ -79,6 +79,12 @@ Returns `{x,y,z}` for the chip model position.
 #### `chip.getChipCFrame()`
 Returns the chip model `CFrame`.
 
+#### `chip.setChipVisible(visible)`
+Shows or hides the chip part. `visible` is boolean.
+
+#### `chip.setChipCollidable(collide)`
+Enables or disables collisions for the chip part.
+
 ## Global Tables
 
 ### `state`
