@@ -73,6 +73,12 @@ Returns a list of player handles inside a box.
 - `center`: `{x,y,z}`
 - `size`: `{x,y,z}`
 
+#### `chip.getChipPosition()`
+Returns `{x,y,z}` for the chip model position.
+
+#### `chip.getChipCFrame()`
+Returns the chip model `CFrame`.
+
 ## Global Tables
 
 ### `state`
