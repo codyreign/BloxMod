@@ -49,10 +49,12 @@ Returns: `handle` (table) with methods:
 - `handle:setSize(x, y, z)` or `handle:setSize({x,y,z})`
 - `handle:moveTo(x, y, z, speed)` or `handle:moveTo({x,y,z}, speed)`
 - `handle:onTouched(callback)`
+- `handle:onClick(callback)`
 - `handle:setSensor(true/false)`
 - `handle:setVisible(true/false)`
 - `handle:setMaterial("MaterialName")`
 - `handle:playSound(soundId, volume, pitch, looped)`
+- `handle:setCFrame(cframe)`
 - `handle:destroy()`
 
 Notes:
@@ -90,6 +92,12 @@ Enables or disables collisions for the chip part.
 
 #### `chip.playSound(soundId, volume, pitch, looped)`
 Plays a sound attached to the chip part.
+
+#### `chip.toWorld(cframe, offset)`
+Converts a local offset `{x,y,z}` into world space using `cframe`.
+
+#### `chip.setCFrameAtOffset(handle, cframe, offset)`
+Sets a part handle's `CFrame` to `cframe * CFrame.new(offset)`.
 
 ## Global Tables
 
