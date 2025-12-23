@@ -7,4 +7,5 @@ This folder contains documentation for the in-game programmable Chip system.
 - `docs/LANGUAGE.md`: Supported Lua subset and syntax rules.
 - `docs/EDITOR.md`: In-game editor usage.
 - `docs/DEPLOYMENT.md`: Tool placement, lifecycle, and runtime behavior.
+- `docs/EXAMPLES.md`: Example chip programs.
 

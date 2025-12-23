@@ -50,6 +50,9 @@ Returns: `handle` (table) with methods:
 - `handle:moveTo(x, y, z, speed)` or `handle:moveTo({x,y,z}, speed)`
 - `handle:onTouched(callback)`
 - `handle:setSensor(true/false)`
+- `handle:setVisible(true/false)`
+- `handle:setMaterial("MaterialName")`
+- `handle:playSound(soundId, volume, pitch, looped)`
 - `handle:destroy()`
 
 Notes:
@@ -84,6 +87,9 @@ Shows or hides the chip part. `visible` is boolean.
 
 #### `chip.setChipCollidable(collide)`
 Enables or disables collisions for the chip part.
+
+#### `chip.playSound(soundId, volume, pitch, looped)`
+Plays a sound attached to the chip part.
 
 ## Global Tables
 
